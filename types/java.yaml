@@ -1,0 +1,16 @@
+################################################################
+# Blueprint node types.
+#
+# specific types for Java.
+################################################################
+
+node_types:
+  java.nodes.Java:
+    derived_from: cloudify.nodes.ApplicationModule
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        create:
+          implementation: script.script_runner.tasks.run
+          inputs:
+            script_path:
+              default: https://raw.githubusercontent.com/kemiz/java-cfy3/3.2/scripts/install-java.sh

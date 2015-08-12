@@ -1,0 +1,39 @@
+###########################################################
+# This Blueprint installs the Logstash
+# on an openstack cloud environment.
+###########################################################
+
+tosca_definitions_version: cloudify_dsl_1_0
+
+imports:
+  - http://www.getcloudify.org/spec/cloudify/3.2/types.yaml
+  - http://www.getcloudify.org/spec/openstack-plugin/1.2/plugin.yaml
+  - http://www.getcloudify.org/spec/diamond-plugin/1.2/plugin.yaml
+  - https://raw.githubusercontent.com/kemiz/monitored-server-cfy3/master/types/monitored-server-types.yaml
+  - types/java.yaml
+
+inputs:
+
+  image:
+    description: >
+      Image to be used when launching agent VM's
+
+  flavor:
+    description: >
+      Flavor of the agent VM's
+
+  agent_user:
+    description: >
+      User for connecting to agent VM's
+
+node_templates:
+
+  java_host:
+    type: monitoredhosts.openstack.nodes.MonitoredServer
+
+  java:
+    type: java.nodes.Java
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: java_host
+
